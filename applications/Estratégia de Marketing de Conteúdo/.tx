@@ -1,0 +1,16 @@
+async def main():
+    memory = ContextualMemory(max_context_size=5)
+    model = GeminiModel(temperature=0.8, top_k=50)
+    search_tool = GoogleSearchTool()
+
+    pesquisador = Agent(name="Pesquisador", role="Busca tendências", model=model, tools=[search_tool], memory=memory)
+    analista = Agent(name="Analista", role="Analisa público", model=model, memory=memory)
+    escritor = Agent(name="Escritor", role="Cria calendário", model=model, memory=memory)
+
+    # Tarefas para marketing de conteúdo
+    tarefa_pesquisa = Task(description="Pesquisar tendências de conteúdo no setor", agent=pesquisador, priority=2)
+    tarefa_analise = Task(description="Analisar o público-alvo e gaps de conteúdo", agent=analista, priority=1, dependencies=[tarefa_pesquisa])
+    tarefa_calendario = Task(description="Criar calendário de conteúdo", agent=escritor, priority=0, dependencies=[tarefa_analise])
+
+    equipe = Crew(agents=[pesquisador, analista, escritor], tasks=[tarefa_pesquisa, tarefa_analise, tarefa_calendario])
+    await equipe.run()

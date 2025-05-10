@@ -1,0 +1,16 @@
+async def main():
+    memory = ContextualMemory(max_context_size=5)
+    model = GeminiModel(temperature=0.8, top_k=50)
+    search_tool = GoogleSearchTool()
+
+    pesquisador = Agent(name="Pesquisador", role="Coleta dados", model=model, tools=[search_tool], memory=memory)
+    analista = Agent(name="Analista", role="Pontua leads", model=model, memory=memory)
+    escritor = Agent(name="Escritor", role="Cria lista", model=model, memory=memory)
+
+    # Tarefas para qualificação de leads
+    tarefa_pesquisa = Task(description="Pesquisar informações sobre leads", agent=pesquisador, priority=2)
+    tarefa_analise = Task(description="Pontuar leads por potencial", agent=analista, priority=1, dependencies=[tarefa_pesquisa])
+    tarefa_lista = Task(description="Criar lista de leads priorizados", agent=escritor, priority=0, dependencies=[tarefa_analise])
+
+    equipe = Crew(agents=[pesquisador, analista, escritor], tasks=[tarefa_pesquisa, tarefa_analise, tarefa_lista])
+    await equipe.run()

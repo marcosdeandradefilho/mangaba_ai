@@ -1,0 +1,72 @@
+{
+    "api_keys": {
+        "gemini": "sua-chave-gemini",
+        "openai": "sua-chave-openai",
+        "anthropic": "sua-chave-anthropic"
+    },
+    "models": {
+        "gemini": {
+            "temperature": 0.7,
+            "top_k": 40,
+            "top_p": 0.95
+        },
+        "openai": {
+            "model": "gpt-4",
+            "temperature": 0.7,
+            "max_tokens": 1000
+        },
+        "anthropic": {
+            "model": "claude-3-opus",
+            "temperature": 0.7,
+            "max_tokens": 1000
+        }
+    },
+    "integrations": {
+        "slack": {
+            "bot_token": "seu-token-bot",
+            "app_token": "seu-token-app",
+            "channels": ["geral", "suporte"]
+        },
+        "github": {
+            "token": "seu-token-github",
+            "repositories": ["seu-usuario/seu-repositorio"]
+        },
+        "jira": {
+            "server": "https://seu-jira.atlassian.net",
+            "username": "seu-usuario",
+            "api_token": "seu-token-api",
+            "projects": ["PROJ"]
+        },
+        "discord": {
+            "token": "seu-token-discord",
+            "guilds": ["seu-servidor"]
+        }
+    },
+    "agents": {
+        "max_concurrent_tasks": 5,
+        "task_timeout": 300,
+        "memory_size": 1000,
+        "max_retries": 3
+    },
+    "memory": {
+        "max_size": 1000,
+        "ttl": 3600,
+        "cleanup_interval": 300,
+        "cache_size": 100
+    },
+    "communication": {
+        "max_messages": 1000,
+        "message_ttl": 3600,
+        "priority_levels": 5
+    },
+    "context_fusion": {
+        "max_contexts": 10,
+        "context_ttl": 1800
+    },
+    "workflow": {
+        "max_agents": 10,
+        "max_tasks": 100,
+        "timeout": 3600,
+        "retry_attempts": 3
+    }
+} 
