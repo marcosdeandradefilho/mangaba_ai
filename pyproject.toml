@@ -3,44 +3,113 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mangaba"
-dynamic = ["version"]
-description = "Framework Python para criacao de equipes de agentes AI autonomos"
+name = "mangaba_ai"
+version = "0.1.0"
+description = "Framework para desenvolvimento de agentes autônomos inteligentes"
 readme = "README.md"
-authors = [{name = "Dheiver Santos", email = "dheiver.santos@gmail.com"}]
+authors = [
+    {name = "Seu Nome", email = "seu.email@exemplo.com"}
+]
 license = {text = "MIT"}
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.8"
+dependencies = [
+    "google-generativeai>=0.3.0",
+    "python-dotenv>=1.0.0",
+    "aiohttp>=3.9.0",
+    "pydantic>=2.5.0",
+    "typing-extensions>=4.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.9.0",
+    "isort>=5.12.0",
+    "flake8>=6.1.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.4.0",
+]
+integrations = [
+    "jira>=3.5.1",
+    "slack-sdk>=3.21.0",
+    "discord.py>=2.3.0",
+]
+analysis = [
+    "pandas>=2.1.0",
+    "numpy>=1.24.0",
+    "matplotlib>=3.8.0",
+    "seaborn>=0.13.0",
+]
 
 [project.urls]
 "Homepage" = "https://github.com/dheiver2/mangaba_ai"
 "Bug Tracker" = "https://github.com/dheiver2/mangaba_ai/issues"
 
 [tool.black]
-line-length = 120
-target-version = ['py39']
+line-length = 88
+target-version = ["py38"]
 include = '\.pyi?$'
 
 [tool.isort]
 profile = "black"
 multi_line_output = 3
-line_length = 120
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.8"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
+disallow_incomplete_defs = true
 check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
 
 [tool.pytest.ini_options]
-minversion = "8.0"
-addopts = "-ra -q"
-testpaths = [
-    "tests",
-] 
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+asyncio_mode = "auto"
+addopts = "-v --cov=mangaba_ai --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["mangaba_ai"]
+omit = ["tests/*", "setup.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "pass",
+    "raise ImportError",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = ["B101"]
+targets = ["mangaba_ai"]
+
+[tool.setuptools.packages.find]
+where = ["src"] 
